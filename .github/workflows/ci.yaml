@@ -1,0 +1,54 @@
+name: ci
+
+on:
+    push:
+        branches: [master]
+    pull_request:
+        branches: [master]
+
+jobs:
+    test:
+        strategy:
+            matrix:
+                os: [ubuntu-latest, macos-latest, windows-latest]
+        
+        runs-on: ${{ matrix.os }}
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Setup Volta
+              uses: volta-cli/action@v1
+            - run: npm install
+            - name: Test
+              uses: GabrielBB/xvfb-action@v1
+              with:
+                  run: npm test
+
+    release:
+        needs: test
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  token: ${{ secrets.GH_TOKEN_SEMANTIC_RELEASE }}
+            - name: Setup Volta
+              uses: volta-cli/action@v1
+            - run: npm install
+            - run: npx semantic-release
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
+            - if: github.event_name == 'pull_request'
+              name: Create extension vsix for pull request
+              run: |
+                pr_number=$([[ "${GITHUB_REF}" =~ ^refs/pull/(.*)/merge$ ]] && echo ${BASH_REMATCH[1]})
+                npm version --prerelease --preid "pr-${pr_number}" --no-git-tag-version
+                npx vsce package
+            - if: github.event_name == 'pull_request'
+              name: Archive the extension vsix for pull request
+              uses: actions/upload-artifact@v2
+              with:
+                name: extension-vsix
+                path: "*.vsix"
