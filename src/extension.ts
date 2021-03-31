@@ -20,7 +20,12 @@ function _activate(context: vscode.ExtensionContext) {
     if (!isNil(settings.active) && !settings.active) {
         return;
     }
-    vscode.workspace.onDidChangeConfiguration(() => settings.loadSettings(vscode.workspace.getConfiguration("gerrit")));
+
+    vscode.workspace.onDidChangeConfiguration((event) => {
+        if (event.affectsConfiguration("gerrit")) {
+            settings.loadSettings(vscode.workspace.getConfiguration("gerrit"));
+        }
+    });
 
     let fileContainer = FileServiceClient.getInstance();
     context.subscriptions.push(fileContainer.startServer());

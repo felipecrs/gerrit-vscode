@@ -245,13 +245,17 @@ export class Gerrit {
         if (isNil(this.settings.url)) {
             return Promise.reject("Gerrit URL is not set");
         }
-        const url = `${this.settings.url}/a/${path}`;
+        const shouldAuth: boolean = this.settings.credentials !== undefined;
+        const url = `${this.settings.url}/${shouldAuth ? 'a/' : ''}${path}`;
+
         return rp({
-            url: url,
-            auth: {
-                user: this.settings.username,
-                pass: this.settings.httpPassword,
-                sendImmediately: false
+            url,
+            ...(shouldAuth) && {
+                auth: {
+                    user: this.settings.credentials.username,
+                    pass: this.settings.credentials.password,
+                    sendImmediately: false
+                }
             }
         }).then(
             value => {
