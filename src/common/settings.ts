@@ -1,11 +1,14 @@
 import Event from "../common/event";
 
-export interface SettingsExport {
-    showLog: boolean;
-    url: string;
+type Credentials = {
     username: string;
+    password: string;
+};
+export interface SettingsExport {
+    url: string;
     project: string;
-    httpPassword: string;
+    credentials: Credentials;
+    showLog: boolean;
     workspaceRoot: string;
     extensionRoot: string;
 }
@@ -14,9 +17,8 @@ class Settings {
     private _active: boolean;
     private _showLog: boolean;
     private _url: string;
-    private _username: string;
+    private _credentials: Credentials;
     private _project: string;
-    private _httpPassword: string;
     private _workspaceRoot: string;
     private _extensionRoot: string;
     private static instance: Settings;
@@ -32,21 +34,19 @@ class Settings {
 
     public loadSettings(settings: any): void {
         this._active = settings.active;
-        this._showLog = settings.showLog;
         this._url = settings.url;
-        this._username = settings.username;
         this._project = settings.project;
-        this._httpPassword = settings.httpPassword;
+        this._credentials = settings.credentials[this._url];
+        this._showLog = settings.showLog;
         this.emitUpdate();
     }
 
     exportSettings(): SettingsExport {
         return {
             url: this._url,
-            showLog: this._showLog,
-            username: this._username,
             project: this._project,
-            httpPassword: this._httpPassword,
+            credentials: this._credentials,
+            showLog: this._showLog,
             workspaceRoot: this._workspaceRoot,
             extensionRoot: this._extensionRoot
         };
@@ -60,16 +60,12 @@ class Settings {
         return this._active;
     }
 
-    get showLog(): boolean {
-        return this._showLog;
-    }
-
     get url(): string {
         return this._url;
     }
 
-    get username(): string {
-        return this._username;
+    get credentials(): Credentials {
+        return this._credentials;
     }
 
     get project(): string {
@@ -81,8 +77,8 @@ class Settings {
         this.emitUpdate();
     }
 
-    get httpPassword(): string {
-        return this._httpPassword;
+    get showLog(): boolean {
+        return this._showLog;
     }
 
     get workspaceRoot(): string {

@@ -30,17 +30,16 @@
     "SCM Providers"
   ],
   "activationEvents": [
-    "*"
+    "onStartupFinished"
   ],
   "contributes": {
     "configuration": {
-      "type": "object",
       "title": "Gerrit",
       "properties": {
         "gerrit.active": {
           "type": "boolean",
           "default": false,
-          "description": "Activate Gerrit extension"
+          "description": "When enabled, the Gerrit extension will be active. It is recommended to set this for each workspace (.vscode/settings.json). Note: the VS Code window needs to be reloaded to pick up a change in this setting."
         },
         "gerrit.url": {
           "type": "string",
@@ -49,26 +48,55 @@
             "http://localhost:8080"
           ],
           "format": "uri",
-          "description": "The Gerrit URL (required)"
+          "description": "The URL of the Gerrit server (required). It is recommended to set this for each workspace (.vscode/settings.json)."
         },
         "gerrit.project": {
           "type": "string",
-          "description": "Gerrit project (required)"
-        },
-        "gerrit.username": {
-          "type": "string",
-          "scope": "application",
-          "description": "Gerrit username (required)"
-        },
-        "gerrit.httpPassword": {
-          "type": "string",
-          "scope": "application",
-          "description": "Gerrit http password (required)"
+          "description": "The project name in the Gerrit server (required). It is recommended to set this for each workspace (.vscode/settings.json)."
         },
         "gerrit.showLog": {
           "type": "boolean",
           "default": false,
-          "description": "Show the gerrit log during commands"
+          "description": "When enabled, shows the Gerrit log during commands."
+        },
+        "gerrit.credentials": {
+          "type": "object",
+          "scope": "application",
+          "description": "The map of credentials used to authenticate on the Gerrit servers. Each key is an URL of an Gerrit server (as set in gerrit.url), and the value is an object with its username and password.",
+          "markdownDescription": "The map of **credentials** used to authenticate on the Gerrit servers. Each **key** is an URL of an Gerrit server (as set in `#gerrit.url#`), and the **value** is an object with its `username` and `password`.",
+          "propertyNames": {
+            "format": "uri"
+          },
+          "additionalProperties": {
+            "type": "object",
+            "description": "The URL of the Gerrit server.",
+            "properties": {
+              "username": {
+                "type": "string",
+                "description": "The username used to authenticate on the Gerrit server."
+              },
+              "password": {
+                "type": "string",
+                "description": "The password used to authenticate on the Gerrit server."
+              }
+            },
+            "required": [
+              "username",
+              "password"
+            ]
+          },
+          "examples": [
+            {
+              "https://review.gerrithub.io": {
+                "username": "example",
+                "password": "secret"
+              },
+              "http://localhost:8080": {
+                "username": "admin",
+                "password": "secret"
+              }
+            }
+          ]
         }
       }
     },
@@ -76,97 +104,116 @@
       {
         "command": "gerrit.stageAll",
         "title": "Stage all files",
-        "category": "Gerrit"
+        "category": "Gerrit",
+        "enablement": "config.gerrit.active"
       },
       {
         "command": "gerrit.stageCurrentFile",
         "title": "Stage current file",
-        "category": "Gerrit"
+        "category": "Gerrit",
+        "enablement": "config.gerrit.active"
       },
       {
         "command": "gerrit.stageFile",
         "title": "Stage file",
-        "category": "Gerrit"
+        "category": "Gerrit",
+        "enablement": "config.gerrit.active"
       },
       {
         "command": "gerrit.resetAll",
         "title": "Reset all files",
-        "category": "Gerrit"
+        "category": "Gerrit",
+        "enablement": "config.gerrit.active"
       },
       {
         "command": "gerrit.resetCurrentFile",
         "title": "Reset current file",
-        "category": "Gerrit"
+        "category": "Gerrit",
+        "enablement": "config.gerrit.active"
       },
       {
         "command": "gerrit.resetFile",
         "title": "Reset file",
-        "category": "Gerrit"
+        "category": "Gerrit",
+        "enablement": "config.gerrit.active"
       },
       {
         "command": "gerrit.checkoutBranch",
         "title": "Checkout branch",
-        "category": "Gerrit"
+        "category": "Gerrit",
+        "enablement": "config.gerrit.active"
       },
       {
         "command": "gerrit.checkoutRevision",
         "title": "Checkout revision",
-        "category": "Gerrit"
+        "category": "Gerrit",
+        "enablement": "config.gerrit.active"
       },
       {
         "command": "gerrit.cherrypickRevision",
         "title": "Cherrypick revision",
-        "category": "Gerrit"
+        "category": "Gerrit",
+        "enablement": "config.gerrit.active"
       },
       {
         "command": "gerrit.cherrypickContinue",
         "title": "Cherrypick continue",
-        "category": "Gerrit"
+        "category": "Gerrit",
+        "enablement": "config.gerrit.active"
       },
       {
         "command": "gerrit.commit",
         "title": "Commit",
-        "category": "Gerrit"
+        "category": "Gerrit",
+        "enablement": "config.gerrit.active"
       },
       {
         "command": "gerrit.commitAmend",
         "title": "Commit amend",
-        "category": "Gerrit"
+        "category": "Gerrit",
+        "enablement": "config.gerrit.active"
       },
       {
         "command": "gerrit.pushBranch",
         "title": "Push to branch",
-        "category": "Gerrit"
+        "category": "Gerrit",
+        "enablement": "config.gerrit.active"
       },
       {
         "command": "gerrit.draftBranch",
         "title": "Draft to branch",
-        "category": "Gerrit"
+        "category": "Gerrit",
+        "enablement": "config.gerrit.active"
       },
       {
         "command": "gerrit.rebaseBranch",
         "title": "Rebase from branch",
-        "category": "Gerrit"
+        "category": "Gerrit",
+        "enablement": "config.gerrit.active"
       },
       {
         "command": "gerrit.rebaseContinue",
         "title": "Rebase continue",
-        "category": "Gerrit"
+        "category": "Gerrit",
+        "enablement": "config.gerrit.active"
       },
       {
         "command": "gerrit.log",
         "title": "Toggle log",
-        "category": "Gerrit"
+        "category": "Gerrit",
+        "enablement": "config.gerrit.active"
       },
       {
         "command": "gerrit.cleanAll",
         "title": "Clean all files",
-        "category": "Gerrit"
+        "category": "Gerrit",
+        "enablement": "config.gerrit.active"
       },
       {
         "command": "gerrit.cleanCurrentFile",
         "title": "Clean current file",
-        "category": "Gerrit"
+        "category": "Gerrit",
+        "enablement": "config.gerrit.active"
       }
     ]
   },
