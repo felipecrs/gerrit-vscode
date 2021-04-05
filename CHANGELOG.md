@@ -1,3 +1,10 @@
+### [0.6.1](https://github.com/felipecrs/vscode-gerrit/compare/v0.6.0...v0.6.1) (2021-04-05)
+
+
+### Bug Fixes
+
+* output always being shown ([3a8598f](https://github.com/felipecrs/vscode-gerrit/commit/3a8598f8345e4f04539ae351aa87213665583422))
+
 ## [0.6.0](https://github.com/felipecrs/vscode-gerrit/compare/v0.5.0...v0.6.0) (2021-03-31)
 
 
