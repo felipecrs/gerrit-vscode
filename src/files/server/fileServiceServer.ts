@@ -11,7 +11,7 @@ let workspaceRoot: string;
 
 connection.onInitialize((params): InitializeResult => {
     // connection.console.log(params.initializationOptions);
-    workspaceRoot = params.rootPath;
+    workspaceRoot = params.workspaceFolders[0].uri;
     return {
         capabilities: {
         }
