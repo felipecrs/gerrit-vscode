@@ -24,7 +24,7 @@
             "port": 6004,
             "restart": true,
             "outFiles": [
-                "${workspaceRoot}/dist/**/*.js"
+                "${workspaceFolder}/dist/**/*.js"
             ]
         },
         {

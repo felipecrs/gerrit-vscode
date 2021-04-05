@@ -15,7 +15,7 @@ export function activate(context: vscode.ExtensionContext) {
 function _activate(context: vscode.ExtensionContext) {
     let settings = Settings.getInstance();
     settings.extensionRoot = context.extensionPath;
-    settings.workspaceRoot = vscode.workspace.rootPath;
+    settings.workspaceRoot = vscode.workspace.workspaceFolders[0].uri.fsPath;
     settings.loadSettings(vscode.workspace.getConfiguration("gerrit"));
     if (!isNil(settings.active) && !settings.active) {
         return;
