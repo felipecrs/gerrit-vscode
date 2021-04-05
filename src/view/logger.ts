@@ -22,7 +22,7 @@ export class Logger extends BasicLogger {
     }
 
     log(value: string) {
-        if (!isNil(Settings.getInstance().showLog && Settings.getInstance().showLog)) {
+        if (!isNil(Settings.getInstance().showLog) && Settings.getInstance().showLog) {
             this.outputChannel.show(true);
         }
         let lines: string[] = value.split(utils.SPLIT_LINE);
