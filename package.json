@@ -254,7 +254,7 @@
   },
   "dependencies": {
     "lodash": "^4.15.0",
-    "object-hash": "^2.1.1",
+    "object-hash": "^3.0.0",
     "request-promise": "^4.2.6",
     "vscode-languageclient": "^7.0.0",
     "vscode-languageserver": "^7.0.0"
