@@ -48,7 +48,7 @@ jobs:
                 npx vsce package
             - if: github.event_name == 'pull_request'
               name: Archive the extension vsix for pull request
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v3
               with:
                 name: extension-vsix
                 path: "*.vsix"
